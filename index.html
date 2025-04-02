@@ -32,6 +32,7 @@
   <script type="module">
     import { Viewer } from '@photo-sphere-viewer/core';
     import { PlanPlugin } from '@photo-sphere-viewer/plan-plugin';
+    import { TileLayer } from 'leaflet';
 
     // Create the viewer
     const viewer = new Viewer({
@@ -40,8 +41,25 @@
       caption: 'My 360° Panorama',      // optional text displayed at the bottom
       // any other options you want...
       plugins: [
-        [PlanPlugin, { coordinates: [6.79077, 44.58041] }]
-      ],
+          [PlanPlugin, {
+            defaultZoom: 14,
+            coordinates: [6.78677, 44.58241],
+            bearing: '120deg',
+            layers: [
+                {
+                    name: 'OpenStreetMap',
+                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    attribution: '&copy; OpenStreetMap',
+                },
+                {
+                    name: 'OpenTopoMap',
+                    layer: new TileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                        subdomains: ['a', 'b', 'c'],
+                        maxZoom: 17,
+                    }),
+                    attribution: '&copy; OpenTopoMap',
+                },
+            ],
     });
   </script>
 </body>
